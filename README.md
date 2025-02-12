@@ -105,6 +105,8 @@ The values $y$ are clipped to the range 0 to 255.
 
 #### Camera parameters
 The camera parameters are defined by the intrinsic matrix $K$, and the extrinsics $R,t$.
+The extrinsics are a world to camera transformation (world2cam).
+The intrinsics describe a pinhole camera and the projection follows the OpenCV convention.
 We can project a 3D point $X$ to the camera coordinate system with 
 
 $$ x = K(R X + t) $$
@@ -139,7 +141,7 @@ xmin xmax ymin ymax zmin zmax
 The `*world_to_env*.txt` files describe a transformation from the world coordinate system into the coordinate system of the omnidirectional camera that captures the environment.
 The text file stores a 4x4 transformation matrix and transforms a homogeneous 3D point to the camera coordinate system.
 Usually we make the assumption that the environment is infinitely far away from the object and we are only interested in directions.
-In this case we only the rotational part of the 4x4 matrix in the upper left corner is of interest.
+In this case only the rotational part of the 4x4 matrix in the upper left corner is used.
 With $R$ as the rotation and $t$ as the translation the format of the text file is
 ```
 r11 r12 r13 tx
@@ -162,7 +164,7 @@ The intrinsic and extrinsic camera parameters can be used to directly project a 
 $$ x = K(R X + t) $$
 
 $x$ is a homogeneous point describing a position in the image.
-
+The extrinsics are a world to camera transformation (world2cam), the intrinsics and the projection follow the OpenCV conventions.
 
 ### Images
 The x-axis for images points to the right and the y-axis points down following the memory order.
@@ -173,8 +175,8 @@ The bottom right corner for an image with witdth $w$ and height $h$ is at $(w, h
 
 ### Environment maps
 Environment maps are stored as equirectangular images. 
-We use a normalized coordinate system similar to regular images.
-The u-axis points to the right and the v-axis points down following the memory order.
+Similar to regular images, the u-axis points to the right and the v-axis points down following the memory order.
+We use a normalized coordinate system. 
 The coordinates $(u,v)$ of the top left corner are $(0,0)$.
 The bottom right corner is at $(1, 1)$ irrespective of the size of the environment map.
 This corresponds to the texture coordinate convention used by DirectX.
